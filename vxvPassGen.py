@@ -1,17 +1,17 @@
-#!/usr/bin/python
+# developed by Zach - Vidi x Vici
+# last updated 17 July 2023
+# BEFORE USE
+# MUST INSTALL TKINTER, AND PYPERCLIP
 # -*- coding: utf-8 -*-
 import tkinter as tk 
 import array as arr 
 import random 
 import pyperclip as pc 
 from tkinter import *
-from Crypto.PublicKey import RSA
-from Crypto.Random import get_random_bytes
-from Crypto.Cipher import AES, PKCS1_OAEP
 import os
 
 class Window(Frame):
-    
+
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
@@ -23,11 +23,11 @@ class Window(Frame):
         # create buttons
 
         exitButton = Button(self, text='Exit',command=self.clickExitButton)
-        
+
         newFile = Button(self, text='  Save  ', command=self.createFile)
-        
+
         passwordButton = Button(self, text='Generate Pass', command=self.createArrandPassVar)
-        
+
         passwordCopyButton = Button(self, text='Copy Password', command=self.copyPassword)
 
         usernameCopyButton = Button(self, text='Copy Username', command=self.copyUsername)
@@ -37,9 +37,9 @@ class Window(Frame):
         openFileButton = Button(self, text='Open', command=self.openLoginButton)
 
         clearButton = Button(self, text='         Clear        ', command=self.clearField)
-        
+
         # create text entry boxes under global var
-        
+
         global emailEntry
         emailEntry = tk.Entry()
         emailEntry.configure(bg='#09111D')
@@ -58,6 +58,10 @@ class Window(Frame):
 
         global titleEntry
         titleEntry = tk.Entry()
+        titleEntry.configure(fg='#999d8e')
+        titleEntry.bind("<Button-1>", lambda e: titleEntry.delete(0, tk.END))
+        
+        titleEntry.insert(0, "Search...")
         titleEntry.configure(bg='#09111D')
 
         # create labels and place in application window
@@ -126,11 +130,11 @@ class Window(Frame):
         nameEntry.delete(0, tk.END)
         passwordEntry.delete(0, tk.END)
         extraInfoEntry.delete('1.0','20.0')
-        
+
 
 
     # opens existing login
-    
+
     def openLoginButton(self):
         global title
         global titleEntry
@@ -140,21 +144,35 @@ class Window(Frame):
         global nameEntry
         global passwordEntry
         global extraInfoEntry
+        titleEntry.configure(fg='#ffffff')
         titleEntry.delete(0, tk.END)
         emailEntry.delete(0, tk.END)
         nameEntry.delete(0, tk.END)
         passwordEntry.delete(0, tk.END)
         extraInfoEntry.delete('1.0','20.0')
 
-        titleEntry.insert(0, title)
-        
+        f = open("data/" + title, "r")
+        title = f.readline()
+        email = f.readline()
+        username = f.readline()
+        Password = f.readline()
+        f.close()
+        e = open("data/" + title.rstrip('\n') + "extra", "r")
+        extraInfo = e.read()
+
+        titleEntry.insert(0, title.rstrip('\n'))
+        emailEntry.insert(0, email.rstrip('\n'))
+        nameEntry.insert(0, username.rstrip('\n'))
+        passwordEntry.insert(0, Password.rstrip('\n'))
+        extraInfoEntry.insert('1.0', extraInfo)
+
     # function for exit button
-    
+
     def clickExitButton(self):
         exit()
 
     # creates new .txt file
-    
+
     def createFile(self):
         global email
         global username
@@ -175,6 +193,28 @@ class Window(Frame):
         email = emailEntry.get()
         Password = passwordEntry.get()
         extraInfo = extraInfoEntry.get('1.0', '20.0')
+        # creating a new directory
+        isExist = os.path.exists("data")
+        if not isExist:
+        # Create a new directory because it does not exist
+            os.makedirs("data")
+
+         # Changing current path to the directory
+        os.chdir("data")
+
+        # creating a new file for writing operation
+        f = open(title, "w")
+        f.write(title + "\n")
+        f.write(email + "\n")
+        f.write(username + "\n")
+        f.write(Password + "\n")
+        
+        f.close()
+        e = open(title + "extra", "w")
+        e.write(extraInfo)
+        e.close()
+        os.chdir("..")
+
 
     # copies username to clipboard
 
@@ -220,8 +260,6 @@ class Window(Frame):
         Password = ''.join(arrP)
         pc.copy(Password)
         passwordEntry.insert(0, Password)
-  
-
 
 root = Tk()
 app = Window(root)
