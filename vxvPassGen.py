@@ -1,5 +1,5 @@
 # developed by Zach - Vidi x Vici
-# last updated 17 July 2023
+# last updated 1 August 2025
 # BEFORE USE
 # MUST INSTALL TKINTER, AND PYPERCLIP
 # -*- coding: utf-8 -*-
@@ -58,38 +58,52 @@ class Window(Frame):
 
         global titleEntry
         titleEntry = tk.Entry()
-        titleEntry.configure(fg='#999d8e')
+        titleEntry.configure(fg="#ffffff")
         titleEntry.bind("<Button-1>", lambda e: titleEntry.delete(0, tk.END))
         
         titleEntry.insert(0, "Search...")
         titleEntry.configure(bg='#09111D')
+
+        # Number of Characters Entry:
+        global CharEntry
+        CharEntry = tk.Entry()
+        CharEntry.configure(fg="#ffffff",bg='#09111D')
+        CharEntry.place(x=300, y=179)
+
 
         # create labels and place in application window
 
         titlelabel = tk.Label(text='Title:')
         titlelabel.place(x=0, y=0)
         titleEntry.place(x=0, y=23)
-        titlelabel.configure(bg='#09111D')
+        titlelabel.configure(fg="#ffffff",bg='#09111D')
 
         emaillabel = tk.Label(text='Email:')
         emaillabel.place(x=0, y=51)
         emailEntry.place(x=0, y=72)
-        emaillabel.configure(bg='#09111D')
+        emailEntry.configure(fg="#ffffff")
+        emaillabel.configure(fg="#ffffff",bg='#09111D')
 
         usernamelabel = tk.Label(text='Username:')
         usernamelabel.place(x=0, y=103)
         nameEntry.place(x=0, y=128)
-        usernamelabel.configure(bg='#09111D')
+        nameEntry.configure(fg="#ffffff")
+        usernamelabel.configure(fg="#ffffff",bg='#09111D')
 
         passwordlabel = tk.Label(text='Password:')
         passwordlabel.place(x=0, y=157)
+        passwordLengthlabel = tk.Label(text='Password Length:')
+        passwordLengthlabel.place(x=320, y=157)
         passwordEntry.place(x=0, y=179)
-        passwordlabel.configure(bg='#09111D')
+        passwordEntry.configure(fg="#ffffff")
+        passwordlabel.configure(fg="#ffffff",bg='#09111D')
+        passwordLengthlabel.configure(fg="#ffffff",bg='#09111D')
 
         extraInfolabel = tk.Label(text='Extra Info:')
         extraInfolabel.place(x=0, y=213)
         extraInfoEntry.place(x=0, y=235)
-        extraInfolabel.configure(bg='#09111D')
+        extraInfoEntry.configure(fg="#ffffff")
+        extraInfolabel.configure(fg="#ffffff",bg='#09111D')
 
         # place buttons created earlier to run functions
 
@@ -99,8 +113,8 @@ class Window(Frame):
         newFile.place(x=255, y=370)
         newFile.configure(highlightbackground='#09111D')
 
-        passwordButton.place(x=130, y=370)
-        passwordButton.configure(highlightbackground='#09111D')
+        passwordButton.place(x=450, y=179)
+        passwordButton.configure(highlightbackground="#FFFFFF")
 
         passwordCopyButton.place(x=190, y=176)
         passwordCopyButton.configure(highlightbackground='#09111D')
@@ -114,7 +128,7 @@ class Window(Frame):
         openFileButton.place(x=190, y=22)
         openFileButton.configure(highlightbackground='#09111D')
 
-        clearButton.place(x=0, y=370)
+        clearButton.place(x=450, y=370)
         clearButton.configure(highlightbackground='#09111D')
 
     # clears all fields
@@ -251,10 +265,11 @@ class Window(Frame):
             'u','v','w','x','y','z','0','1','2','3','4','5','6','7',
             '8','9','!','$','#','&',']','[','}','{','%','@',')','(',]
 
-        arrP = ['1','2','3','4','5','6','7','8','9','10','11','12',]
-
+        global CharEntry
+        PassLength = int(CharEntry.get())
+        arrP = [0] * PassLength
         i = 0
-        while i < 12:
+        while i < PassLength:
             arrP[i] = arrX[random.randint(0, 73)]
             i += 1
         Password = ''.join(arrP)
