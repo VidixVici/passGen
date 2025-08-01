@@ -1,5 +1,6 @@
-# 12 Character Password Generator 
+# Character Password Generator 
 ### Developed by @VidixVici 
 - Easy to use 
-- Creates a random 12 character long secure password with complex characters 
+- Creates random complex character passwords of custom length
+- Does not have any security!!
 #### Contact me: <br> Website: https://vidixvici.com/ <br> Discord: ZachHarbert <br> Instagram: [VidixVici](https://www.instagram.com/thezacharyharbert/) <br>
